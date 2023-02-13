@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core" style="width: 605px;">
+<ui:composition>
+	<h:panelGrid columns="2" class="movie-showtime-entry zero-border"
+		columnClasses="image-column zero-border,details-column zero-border">
+		<h:graphicImage value="../#{movie.imageName}-120x120.jpg" alt="#{movie.name}" />
+		<h:panelGrid columns="1"
+			class="movie-showtime-inner-entry zero-border"
+			columnClasses="zero-border">
+			<h2>#{movie.name}</h2>
+			<h:outputText value="#{movie.genre}" />
+
+			<ui:insert name="movie-description"></ui:insert>
+			<h:outputText value="&#160;" />
+			<h:outputText
+				value="#{showtime.showtimeDate}&#160;&#160;#{showtime.getDayString(showtime.showtimeDateHour.toLocalDate())} #{showtime.showtimeHour}" />
+			<h:outputText value="&#160;" />
+			<h:panelGrid columns="3">
+				<h:outputText value="Year: #{movie.year}" />
+				<h:outputText value="&#160;&#160;&#160;&#160;&#160;" />
+				<h:outputText value="Director: #{movie.director}" />
+			</h:panelGrid>
+
+
+			<h:link value="Movie details" outcome="movie-details"
+				rowClass="test1" class="movie-details-link">
+				<f:param name="movieId" value="#{movie.movieId}" />
+				<f:param name="showtimeId" value="#{showtime.showtimeId}" />
+				<f:param name="hallId" value="#{showtime.hallId}" />
+				<f:param name="priceId" value="#{showtime.priceId}" />
+			</h:link>
+		</h:panelGrid>
+	</h:panelGrid>
+</ui:composition>
+
+
+</html>

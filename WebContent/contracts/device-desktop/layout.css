@@ -1,0 +1,294 @@
+html {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    margin: 0 0 0.5em 0;
+    padding: 0;
+}
+
+p {
+    margin: 0.5em 0 0 0;
+    padding: 0;
+}
+
+input, button, select {
+    font-family: Arial, sans-serif;
+    font-size: 100%;
+}
+
+body > header#header {
+    padding: 1em;
+    clear: both;
+    text-align: center;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+body > header#header > table {
+	align-self: flex-end;
+}
+
+body > header > h1 {
+    margin: 0;
+}
+
+body > section, body > form > section {
+    margin: 0.5em 20%;
+    padding: 1em;
+    overflow: hidden;
+}
+
+body > footer {
+    padding: 0.5em;
+    clear: both;
+    font-size: 0.8em;
+    text-align: center;
+}
+
+body > footer > p {
+    margin: 0;
+}
+
+.shoppingcart-table {
+    width: 100%;
+}
+
+th.shoppingcart-header {
+    padding: 3px 10px;
+    text-align: left;
+    font-weight: bold;
+    background-color: #909090;
+}
+
+.shoppingcart-col-id, .shoppingcart-col-date, .shoppingcart-col-day, .shoppingcart-col-hour, .shoppingcart-col-movie, .shoppingcart-col-hall,
+ .shoppingcart-col-price {
+    padding: 4px 10px;
+    text-align: left;
+}
+
+.shoppingcart-col-row, .shoppingcart-col-seat {
+	text-align: left;
+	text-indent: 30%;
+}
+
+td.shoppingcart-footer {
+    padding: 3px 10px;
+    font-weight: bold;
+    text-align: left;
+    background-color: #a0a0a0;
+}
+
+
+.orderadmin-table, .useradmin-table, .movieadmin-table, .showtimeadmin-table {
+    width: 100%;
+}
+
+th.orderadmin-header, th.halladmin-header,th.priceadmin-header,th.useradmin-header,th.movieadmin-header,th.showtimeadmin-header {
+    padding: 3px 10px;
+    text-align: left;
+    font-weight: bold;
+    background-color: #909090;
+}
+
+td.orderadmin-footer, td.priceadmin-footer, td.useradmin-footer, td.halladmin-footer, td.movieadmin-footer, td.showtimeadmin-footer {
+    padding: 3px 10px;
+    font-weight: bold;
+    text-align: left;
+    background-color: #a0a0a0;
+}
+
+
+.orderadmin-col-date, .orderadmin-col-movie, .orderadmin-col-payer
+.orderadmin-col-cctype,.orderadmin-col-ccnumber,.orderadmin-col-expdate,
+.orderadmin-col-cvv,.orderadmin-col-status {
+    padding: 4px 10px;
+    text-align: left;
+}
+
+.orderadmin-col-id, .orderadmin-col-hour, .orderadmin-col-price {
+	text-align: left;
+	text-indent: 30%;
+}
+
+.priceadmin-col-category, .priceadmin-col-delete {
+    padding: 4px 10px;
+    text-align: left;
+}
+
+.priceadmin-col-price {
+	text-align: left;
+	text-indent: 30%;
+}
+
+.useradmin-col-firstname, .useradmin-col-lastName, .useradmin-col-username,
+.useradmin-col-userrole, .useradmin-col-email, .useradmin-col-delete {
+    padding: 4px 10px;
+    text-align: left;
+}
+
+.halladmin-col-name, .halladmin-col-delete {
+    padding: 4px 10px;
+    text-align: left;
+}
+
+.halladmin-col-rows, .halladmin-col-seatsrow, .halladmin-col-total {
+	text-align: left;
+	text-indent: 50%;
+}
+
+.movieadmin-col-name, .movieadmin-col-description,   .movieadmin-col-director, .movieadmin-col-actor,
+.movieadmin-col-genre, .movieadmin-col-imagename, .movieadmin-col-delete {
+    padding: 4px 10px;
+    text-align: left;
+}
+
+.movieadmin-col-year, .movieadmin-col-length, .movieadmin-col-rating,  .movieadmin-col-soon {
+	text-align: left;
+	text-indent: 30%;
+}
+
+.showtimeadmin-col-date, .showtimeadmin-col-hour, .showtimeadmin-col-movie, .showtimeadmin-col-hall, .showtimeadmin-col-delete {
+    padding: 4px 10px;
+    text-align: left;
+}
+
+.showtimeadmin-col-total, .showtimeadmin-col-available, .showtimeadmin-col-price {
+	text-align: left;
+	text-indent: 30%;
+}
+
+ul.validation-messages {
+    list-style-position: inside;
+    margin: 0;
+    padding: 0;
+}
+
+ul.validation-messages li {
+    margin: 0.5em 0;
+    padding: 0;
+}
+
+.form-grid {
+    width: 100%;
+}
+
+.form-column-label {
+    white-space: nowrap;
+    padding-right: 1em;
+}
+
+.form-column-input {
+    width: 100%;
+}
+
+.button-right {
+    margin-top: 0.5em;
+    float: right;
+    clear: both;
+}
+
+
+.header-link1 {
+    padding-left: 0px;
+    padding-right: 4px;
+}
+
+.header-link2 {
+    padding-right: 0px;
+    padding-left: 4px;
+}
+
+.top_image {
+	text-align: center;
+}
+
+.moviePanel td{ 
+	vertical-align: top;
+}
+
+table {
+  border-collapse: collapse;
+}
+
+.movie-showtime-entry {
+	width: 100%;
+    margin-bottom: 20px;
+}
+
+.zero-border {
+	border: 0;
+}
+
+.movie-details-link{
+	padding-top: 5px;
+}
+
+.movie-showtime-entry {
+	table-layout: fixed;
+}
+
+.movie-showtime-entry .image-column {
+	width: 220px;
+}
+
+.movie-showtime-entry .image-column img {
+	width: 200px;
+	margin-right: 20px;
+}
+
+.movie-showtime-inner-entry {
+	width: 100%;
+}
+
+.movie-soon-container {
+	display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: stretch;
+}
+
+.movie-soon {
+	display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    width: 120px;
+    height: 190px;
+}
+
+.movie-soon p {
+	justify-self: flex-start;
+    flex-grow: 1;
+    text-align: center;
+}
+
+.search-container {
+	display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: flex-end;
+    padding: 0 30px;
+}
+
+.search-inner-container {
+	display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+
+/* table, th, td { */
+/*   border: 1px solid black; */
+/* } */

@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:mc="http://xmlns.jcp.org/jsf/composite/cinema">
+<ui:composition template="/templates/page-checkout-admin-template.xhtml">
+	<ui:param name="pageTitle" value="Halls Management" />
+	        <ui:define name="panel-top">
+            <section>
+                <ui:fragment rendered="#{not userManager.signedIn}">
+                    <h1>Sign In</h1>
+                    <p>Please enter your username.</p>
+                </ui:fragment>
+
+                <ui:fragment rendered="#{userManager.signedIn}">
+			<h:form>
+				<p>
+					View and update your
+					<h:link value="user details" outcome="user-details" />
+					or
+					<h:commandLink action="#{userManager.signOut}">sign out</h:commandLink>
+					.
+				</p>
+			</h:form>
+		</ui:fragment>
+
+                <p><h:link value="Back to the main menu" outcome="admin-home"/></p>
+            </section>
+        </ui:define>
+	<ui:define name="panel-main">
+	 	<ui:fragment rendered="#{not userManager.signedIn}">
+                <section>
+                    <mc:signIn action="#{userManager.signIn}"/>
+                </section>
+        </ui:fragment>
+		<ui:fragment rendered="#{userManager.signedIn and userManager.admin}">
+			<section>
+				<h:messages id="globalMessage" styleClass="validation-messages" />
+				<h:form>
+					<h:dataTable value="#{hall_data.hallsList}" var="hall"
+						styleClass="halladmin-table" headerClass="halladmin-header"
+						rowClasses="halladmin-row-odd,halladmin-row-even"
+						columnClasses="halladmin-col-name, halladmin-col-rows, halladmin-col-seatsrow, halladmin-col-total, halladmin-col-delete"
+						footerClass="halladmin-footer">
+	
+						<h:column>
+							<f:facet name="header">Hall Name</f:facet>
+							<h:outputText value="#{hall.hallName}" />
+						</h:column>
+	
+						<h:column>
+							<f:facet name="header">Number Of Rows</f:facet>
+							<h:outputText value="#{hall.numberOfRows}" />
+						</h:column>			
+	
+						<h:column>
+							<f:facet name="header">Number Of Seats Per Row</f:facet>
+							<h:outputText value="#{hall.seatsPerRow}" />
+						</h:column>		
+						
+						<h:column>
+							<f:facet name="header">Total Number Of Seats</f:facet>
+							<h:outputText value="#{hall.totalNumberOfSeats}" />
+						</h:column>		
+						
+						<h:column>
+							<f:facet name="header">Delete</f:facet>
+							<h:commandButton value="Delete" action="#{hall_data.deleteHall(hall)}" />
+						</h:column>
+	
+					</h:dataTable>
+		
+				</h:form>
+			</section>
+			<section>
+				<h:form>
+					<h3>Add Hall</h3>
+					<h:panelGrid columns="4">
+									
+						<h:outputText value="Hall Name" />
+						<h:inputText value="#{hall_data.hallName}" />
+						
+						<h:outputText value="Number Of Rows" />
+						<h:inputText value="#{hall_data.strNumberOfRows}" />
+						
+						<h:outputText value="Number Of Seats Per Row" />
+						<h:inputText value="#{hall_data.strSeatsPerRow}" />
+						
+						<h:outputText value="Total Number Of Seats" />
+						<h:inputText value="#{hall_data.strTotalNumberOfSeats}" />
+							
+						<h:commandButton value="Add Hall" action="#{hall_data.addHall}" >
+						</h:commandButton>
+					</h:panelGrid>
+				</h:form>
+			</section>
+		</ui:fragment>
+	</ui:define>
+</ui:composition>
+</html>

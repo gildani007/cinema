@@ -1,0 +1,8 @@
+com.danielly.jsf.cinema.checkout
+com.danielly.jsf.cinema.dao
+com.danielly.jsf.cinema.dao.interfaces
+com.danielly.jsf.cinema.exceptions
+com.danielly.jsf.cinema.model
+com.danielly.jsf.cinema.model.enums
+com.danielly.jsf.cinema.services
+com.danielly.jsf.cinema.services.admin

@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:jsf="http://xmlns.jcp.org/jsf"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:mc="http://xmlns.jcp.org/jsf/composite/cinema">
+<ui:composition template="/templates/page-checkout-admin-template.xhtml">
+	<ui:param name="pageTitle" value="Showtimes Management" />
+	<ui:define name="panel-top">
+            <section>
+                <ui:fragment rendered="#{not userManager.signedIn}">
+                    <h1>Sign In</h1>
+                    <p>Please enter your username.</p>
+                </ui:fragment>
+
+                <ui:fragment rendered="#{userManager.signedIn}">
+			<h:form>
+				<p>
+					View and update your
+					<h:link value="user details" outcome="user-details" />
+					or
+					<h:commandLink action="#{userManager.signOut}">sign out</h:commandLink>
+					.
+				</p>
+			</h:form>
+		</ui:fragment>
+
+                <p><h:link value="Back to the main menu" outcome="admin-home"/></p>
+            </section>
+        </ui:define>
+	<ui:define name="panel-main">
+		<ui:fragment rendered="#{not userManager.signedIn}">
+                <section>
+                    <mc:signIn action="#{userManager.signIn}"/>
+                </section>
+        </ui:fragment>
+		<ui:fragment rendered="#{userManager.signedIn and userManager.admin}">
+			<section>
+			<h:messages id="globalMessage" styleClass="validation-messages" />
+				<h:form>
+					<h:dataTable value="#{showtime_data.showtimes}" var="s"
+						styleClass="showtimeadmin-table" headerClass="showtimeadmin-header"
+						rowClasses="showtimeadmin-row-odd,showtimeadmin-row-even"
+						columnClasses="showtimeadmin-col-date, showtimeadmin-col-hour, showtimeadmin-col-total, showtimeadmin-col-available,
+						showtimeadmin-col-movie,showtimeadmin-col-hall,showtimeadmin-col-price,showtimeadmin-col-delete"
+						footerClass="showtimeadmin-footer">
+	
+						<h:column>
+							<f:facet name="header">Date</f:facet>
+							<h:outputText value="#{s.showtimeDate}" />
+						</h:column>
+	
+	
+						<h:column>
+							<f:facet name="header">Hour</f:facet>
+							<h:outputText value="#{s.showtimeHour}" />
+						</h:column>
+	
+						<h:column>
+							<f:facet name="header">Total Tickets</f:facet>
+							<h:outputText value="#{s.totalTickets}" />
+						</h:column>
+	
+						<h:column>
+							<f:facet name="header">Available Tickets</f:facet>
+							<h:outputText value="#{s.availableTickets}" />
+						</h:column>
+						
+						<h:column>
+							<f:facet name="header">Movie</f:facet>
+							<h:outputText
+								value="#{showtime_data.getMovieNameFromId(s.movieId)}" />
+						</h:column>
+	
+						<h:column>
+							<f:facet name="header">Hall</f:facet>
+							<h:outputText value="#{showtime_data.getHallNameFromId(s.hallId)}" />
+						</h:column>
+	
+						<h:column>
+							<f:facet name="header">Ticket Price</f:facet>
+							<h:outputText
+								value="#{showtime_data.getPriceNisFromId(s.priceId)}" />
+						</h:column>
+	
+						<h:column>
+							<f:facet name="header">Delete</f:facet>
+							<h:commandButton value="Delete" action="#{showtime_data.deleteShowtime(s)}" />
+						</h:column>
+	
+	
+					</h:dataTable>
+				</h:form>			
+			</section>
+			<section>
+				<h:form>
+					<h3>Add Showtime</h3>
+					<h:panelGrid columns="4">
+						<h:outputText value="Date" />
+						<input type="date" jsf:value="#{showtime_data.strShowtimeDate}"
+							style="height: 19px;" />
+						<h:outputText value="Hour" />
+						<input type="time" jsf:value="#{showtime_data.strShowtimeHour}"
+							style="height: 19px;" />
+						<h:outputText value="Movie" />
+						<h:selectOneMenu value="#{showtime_data.strMovieId}">
+							<f:selectItems value="#{showtime_data.moviesMapSelection}" />
+						</h:selectOneMenu>
+						<h:outputText value="Hall" />
+						<h:selectOneMenu value="#{showtime_data.strHallId}">
+							<f:selectItems value="#{showtime_data.hallsMapSelection}" />
+						</h:selectOneMenu>
+						<h:outputText value="Price" />
+						<h:selectOneMenu value="#{showtime_data.strPriceId}">
+							<f:selectItems value="#{showtime_data.pricesMapSelection}" />
+						</h:selectOneMenu>
+						<h:outputText value="Total Tickets" />
+						<h:inputText value="#{showtime_data.strTotalTickets}" />
+	
+						<h:commandButton value="Add Showtime" action="#{showtime_data.addShowtime()}" />
+								
+					</h:panelGrid>
+				</h:form>
+			</section>
+		</ui:fragment>
+	</ui:define>
+</ui:composition>
+</html>

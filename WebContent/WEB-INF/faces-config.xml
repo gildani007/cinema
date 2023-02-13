@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<faces-config version="2.2" xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd">
+              
+      <factory>
+	      <exception-handler-factory>com.danielly.jsf.cinema.exceptions.CustomExceptionHandlerFactory</exception-handler-factory>
+    </factory>
+  <application>
+        <resource-library-contracts>
+            <contract-mapping>
+                <url-pattern>*</url-pattern>
+                <contracts>common,device-desktop,theme-light</contracts>
+            </contract-mapping>
+        </resource-library-contracts>
+    </application>    
+	
+	<navigation-rule>
+        <from-view-id>/sign-in.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>success</from-outcome>
+            <to-view-id>/admin/home.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>failure</from-outcome>
+            <to-view-id>/sign-in.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+   
+    <navigation-rule>
+        <from-view-id>/admin/*</from-view-id>
+      
+        <navigation-case>
+            <from-outcome>success</from-outcome>
+            <to-view-id>/admin/home.xhtml</to-view-id>
+        </navigation-case>
+        
+        <navigation-case>
+            <from-outcome>failure</from-outcome>
+            <to-view-id>/admin/login.xhtml</to-view-id>
+        </navigation-case>
+        
+         <navigation-case>
+            <from-outcome>admin-home</from-outcome>
+            <to-view-id>/admin/home.xhtml</to-view-id>
+        </navigation-case>
+        
+        <navigation-case>
+            <from-outcome>admin-halls</from-outcome>
+            <to-view-id>/admin/halls.xhtml</to-view-id>
+        </navigation-case>
+        
+        <navigation-case>
+            <from-outcome>admin-movies</from-outcome>
+            <to-view-id>/admin/movies.xhtml</to-view-id>
+        </navigation-case>
+        
+        <navigation-case>
+            <from-outcome>admin-orders</from-outcome>
+            <to-view-id>/admin/orders.xhtml</to-view-id>
+        </navigation-case>
+        
+        <navigation-case>
+            <from-outcome>admin-prices</from-outcome>
+            <to-view-id>/admin/prices.xhtml</to-view-id>
+        </navigation-case>
+        
+        <navigation-case>
+            <from-outcome>admin-showtimes</from-outcome>
+            <to-view-id>/admin/showtimes.xhtml</to-view-id>
+        </navigation-case>
+        
+        <navigation-case>
+            <from-outcome>admin-users</from-outcome>
+            <to-view-id>/admin/users.xhtml</to-view-id>
+        </navigation-case>
+        
+        <navigation-case>
+            <from-action>#{userManager.signOut}</from-action>
+            <to-view-id>/admin/home.xhtml</to-view-id>
+            <if>#{true}</if>     
+            <redirect/>
+        </navigation-case>        
+    </navigation-rule>
+    
+    
+    <navigation-rule>
+	<from-view-id>*</from-view-id>	
+		<navigation-case>
+	            <from-outcome>home</from-outcome>
+	            <to-view-id>/index.xhtml</to-view-id>
+	            <redirect />
+	    </navigation-case>
+
+        <navigation-case>
+            <from-outcome>about</from-outcome>
+            <to-view-id>/about.xhtml</to-view-id>
+        </navigation-case>
+
+ 		<navigation-case>
+            <from-outcome>update-order</from-outcome>
+            <to-view-id>/update-order.xhtml</to-view-id>
+        </navigation-case>
+
+    </navigation-rule>
+
+</faces-config>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+<f:view contentType="text/html"
+	contracts="common,device-desktop,theme-light">
+	<ui:composition template="/templates/page-checkout-admin-template.xhtml">
+		<ui:param name="pageTitle" value="Seats Allocation Failed" />
+		<ui:define name="panel-top">
+			<section>
+				<h1>Seats Allocation Failed:</h1>
+				<p>Unfortunately, one or more seats are unavailable.</p>
+			</section>
+		</ui:define>
+		<ui:define name="panel-main">
+			<section>
+				<p>
+					The seats you chose:<BR />
+					<c:forEach var="line" items="#{shoppingCart.lines}"> 
+					Row Number:&#160;
+                    <h:outputText value="#{line.seat.rowNumber}" />
+                   &#160; Seat Number:&#160;
+                    <h:outputText value="#{line.seat.seatNumber}" />
+						<BR />
+					</c:forEach>
+				</p>
+
+				<h:form>
+					<h:commandButton value="Finish" action="#{checkout.finishOrder}"
+						styleClass="button-right" />
+				</h:form>
+			</section>
+		</ui:define>
+	</ui:composition>
+</f:view>
+</html>

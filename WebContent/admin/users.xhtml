@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:mc="http://xmlns.jcp.org/jsf/composite/cinema">
+<ui:composition template="/templates/page-checkout-admin-template.xhtml">
+	<ui:param name="pageTitle" value="Users Management" />
+	        <ui:define name="panel-top">
+            <section>
+                <ui:fragment rendered="#{not userManager.signedIn}">
+                    <h1>Sign In</h1>
+                    <p>Please enter your username.</p>
+                </ui:fragment>
+
+                <ui:fragment rendered="#{userManager.signedIn}">
+			<h:form>
+				<p>
+					View and update your
+					<h:link value="user details" outcome="user-details" />
+					or
+					<h:commandLink action="#{userManager.signOut}">sign out</h:commandLink>
+					.
+				</p>
+			</h:form>
+		</ui:fragment>
+
+                <p><h:link value="Back to the main menu" outcome="admin-home"/></p>
+            </section>
+        </ui:define>
+	<ui:define name="panel-main">
+	 	<ui:fragment rendered="#{not userManager.signedIn}">
+                <section>
+                    <mc:signIn action="#{userManager.signIn}"/>
+                </section>
+        </ui:fragment>
+		<ui:fragment rendered="#{userManager.signedIn and userManager.admin}">
+			<section>
+				<h:messages id="globalMessage" styleClass="validation-messages" />
+				<h:form>
+					<h:dataTable value="#{user_data.usersList}" var="user"
+						styleClass="useradmin-table" headerClass="useradmin-header"
+						rowClasses="useradmin-row-odd,useradmin-row-even"
+						columnClasses="useradmin-col-firstname, useradmin-col-lastName, useradmin-col-username, useradmin-col-userrole,
+						useradmin-col-email, useradmin-col-delete"
+						footerClass="useradmin-footer">
+	
+						<h:column>
+							<f:facet name="header">First Name</f:facet>
+							<h:outputText value="#{user.firstName}" />
+						</h:column>
+	
+						<h:column>
+							<f:facet name="header">Last Name</f:facet>
+							<h:outputText value="#{user.lastName}" />
+						</h:column>			
+	
+						<h:column>
+							<f:facet name="header">Username</f:facet>
+							<h:outputText value="#{user.username}" />
+						</h:column>		
+						
+						<h:column>
+							<f:facet name="header">Role</f:facet>
+							<h:outputText value="#{user_data.getLabelFromEnum(user.role)}" />
+						</h:column>	
+						
+						<h:column>
+							<f:facet name="header">Email Address</f:facet>
+							<h:outputText value="#{user.emailAddress}" />
+						</h:column>	
+						
+						<h:column>
+							<f:facet name="header">Delete</f:facet>
+							<h:commandButton value="Delete" action="#{user_data.deleteUser(user)}" />
+						</h:column>
+
+					</h:dataTable>
+		
+				</h:form>
+			</section>
+			<section>
+				<h:form>
+					<h3>Add User</h3>
+					<h:panelGrid columns="4">
+									
+						<h:outputText value="First Name" />
+						<h:inputText value="#{user_data.firstName}" />
+						
+						<h:outputText value="Last Name" />
+						<h:inputText value="#{user_data.lastName}" />
+						
+						<h:outputText value="Username" />
+						<h:inputText value="#{user_data.username}" />
+						
+						<h:outputText value="Password" />
+						<h:inputText value="#{user_data.password}" />
+						
+						<h:outputText value="Role" />						
+						<h:selectOneMenu value="#{user_data.role}">
+								<f:selectItems value="#{user_data.rolesList}" />
+						</h:selectOneMenu>
+						
+						
+						<h:outputText value="Email Address" />
+						<h:inputText value="#{user_data.emailAddress}" />
+						
+							
+						<h:commandButton value="Add User" action="#{user_data.addUser}" >
+						</h:commandButton>
+					</h:panelGrid>
+				</h:form>
+			</section>
+		</ui:fragment>
+	</ui:define>
+</ui:composition>
+</html>

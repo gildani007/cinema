@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:mc="http://xmlns.jcp.org/jsf/composite/cinema">
+<ui:composition template="/templates/page-checkout-admin-template.xhtml">
+	<ui:param name="pageTitle" value="Orders Management" />
+	<ui:define name="panel-top">
+            <section>
+                <ui:fragment rendered="#{not userManager.signedIn}">
+                    <h1>Sign In</h1>
+                    <p>Please enter your username.</p>
+                </ui:fragment>
+
+                <ui:fragment rendered="#{userManager.signedIn}">
+			<h:form>
+				<p>
+					View and update your
+					<h:link value="user details" outcome="user-details" />
+					or
+					<h:commandLink action="#{userManager.signOut}">sign out</h:commandLink>
+					.
+				</p>
+			</h:form>
+		</ui:fragment>
+
+                <p><h:link value="Back to the main menu" outcome="admin-home"/></p>
+            </section>
+        </ui:define>
+	<ui:define name="panel-main">
+		<ui:fragment rendered="#{not userManager.signedIn}">
+                <section>
+                    <mc:signIn action="#{userManager.signIn}"/>
+                </section>
+        </ui:fragment>
+		<ui:fragment rendered="#{userManager.signedIn}">
+			<section>
+				<h:messages id="globalMessage" styleClass="validation-messages" />
+				<h:form>
+					<h:dataTable value="#{order_data.ordersList}" var="order"
+						styleClass="orderadmin-table" headerClass="orderadmin-header"
+						rowClasses="orderadmin-row-odd,orderadmin-row-even"
+						columnClasses="orderadmin-col-id, orderadmin-col-date, orderadmin-col-hour, orderadmin-col-movie,orderadmin-col-price,
+						orderadmin-col-payer, orderadmin-col-cctype,orderadmin-col-ccnumber,orderadmin-col-expdate,orderadmin-col-cvv,orderadmin-col-status"
+						footerClass="orderadmin-footer">
+	
+						<h:column>
+							<f:facet name="header">Order Number</f:facet>
+							<h:outputText value="#{order.orderId}" />
+						</h:column>
+	
+						<h:column>
+							<f:facet name="header">Showtime Date</f:facet>
+							<h:outputText value="#{order_data.getShowtimeMap().get(order.showtimeId).showtimeDate}" />
+						</h:column>			
+	
+							<h:column>
+							<f:facet name="header">Showtime Hour</f:facet>
+							<h:outputText value="#{order_data.getShowtimeMap().get(order.showtimeId).showtimeHour}" />
+						</h:column>	
+	
+						<h:column>
+							<f:facet name="header">Showtime Movie</f:facet>
+							<h:outputText value="#{showtime_data.getMovieNameFromId((order_data.getShowtimeMap().get(order.showtimeId)).movieId)}" />
+						</h:column>	
+	
+						<h:column>
+							<f:facet name="header">Total Price (NIS)</f:facet>
+							<h:outputText value="#{order.totalPriceNis}" />
+						</h:column>		
+						
+						<h:column>
+							<f:facet name="header">Payer</f:facet>
+							<h:outputText value="#{order.payerName}" />
+						</h:column>	
+						
+						<h:column>
+							<f:facet name="header">CC Type</f:facet>
+							<h:outputText value="#{order.cardType}" />
+						</h:column>		
+						
+						<h:column>
+							<f:facet name="header">CC Number</f:facet>
+							<h:outputText value="*#{order.cardNumber.substring(order.cardNumber.length() - 4)}" />
+						</h:column>	
+						
+						<h:column>
+							<f:facet name="header">Exp Date.</f:facet>
+							<h:outputText value="#{order.cardExpirationFormated}" />
+						</h:column>	
+						
+						<h:column>
+							<f:facet name="header">CVV</f:facet>
+							<h:outputText value="#{order.cardCvv}" />
+						</h:column>	
+						
+						<h:column>
+							<f:facet name="header">Status.</f:facet>
+							<h:outputText value="#{order.status}" />
+						</h:column>
+	
+					</h:dataTable>
+		
+				</h:form>
+			</section>
+		</ui:fragment>
+	</ui:define>
+</ui:composition>
+</html>

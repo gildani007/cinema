@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:mc="http://xmlns.jcp.org/jsf/composite/cinema">
+<f:view contentType="text/html" contracts="common,device-desktop,theme-light">
+    <ui:composition template="/templates/page-checkout-admin-template.xhtml">
+        <ui:param name="pageTitle" value="Admin Home"/>
+        <ui:define name="panel-top">
+            <section>
+                <ui:fragment rendered="#{not userManager.signedIn}">
+                    <h1>Sign In</h1>
+                    <p>Please enter your username.</p>
+                </ui:fragment>
+
+                <ui:fragment rendered="#{userManager.signedIn}">
+			<h:form>
+				<h1>Welcome, #{userManager.currentUser.firstName}!</h1>
+				<p>
+					View and update your
+					<h:link value="user details" outcome="user-details" />
+					or
+					<h:commandLink action="#{userManager.signOut}">sign out</h:commandLink>
+					.
+				</p>
+			</h:form>
+		</ui:fragment>
+
+                <p><h:link value="Back to the site" outcome="home"/></p>
+            </section>
+        </ui:define>
+        <ui:define name="panel-main">
+            <ui:fragment rendered="#{not userManager.signedIn}">
+                <section>
+                    <mc:signIn action="#{userManager.signIn}"/>
+                </section>
+            </ui:fragment>
+             <ui:fragment rendered="#{userManager.signedIn}">
+                <section>
+              	  <h:form>
+	              	  <h:panelGrid colunms="1">	                   		
+	                   		<h:button value="Orders Tracking" outcome="admin-orders"></h:button>
+	                   		<ui:fragment rendered="#{not userManager.reporting}">
+	                   			<h:button value="Prices Management" outcome="admin-prices"></h:button>
+	                   		</ui:fragment>
+	                   		<ui:fragment rendered="#{userManager.admin}">
+	                   			<h:panelGrid colunms="1">	    
+		                   			<h:button value="Users Management" outcome="admin-users"></h:button>
+		                   			<h:button value="Halls Management" outcome="admin-halls"></h:button>
+		                   			<h:button value="Movies Management" outcome="admin-movies"></h:button>
+		                   			<h:button value="Showtime Management" outcome="admin-showtimes"></h:button>
+	                   			</h:panelGrid>
+	                   		 </ui:fragment>
+ 					 </h:panelGrid>                  
+                   </h:form> 
+                </section>
+            </ui:fragment>
+        </ui:define>
+    </ui:composition>
+</f:view>
+</html>

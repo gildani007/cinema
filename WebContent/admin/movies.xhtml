@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:jsf="http://xmlns.jcp.org/jsf"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:mc="http://xmlns.jcp.org/jsf/composite/cinema">
+<ui:composition template="/templates/page-checkout-admin-template.xhtml">
+	<ui:param name="pageTitle" value="Movies Management" />
+	 <ui:define name="panel-top">
+            <section>
+                <ui:fragment rendered="#{not userManager.signedIn}">
+                    <h1>Sign In</h1>
+                    <p>Please enter your username.</p>
+                </ui:fragment>
+
+                <ui:fragment rendered="#{userManager.signedIn}">
+			<h:form>
+				<p>
+					View and update your
+					<h:link value="user details" outcome="user-details" />
+					or
+					<h:commandLink action="#{userManager.signOut}">sign out</h:commandLink>
+					.
+				</p>
+			</h:form>
+		</ui:fragment>
+
+                <p><h:link value="Back to the main menu" outcome="admin-home"/></p>
+            </section>
+        </ui:define>
+	<ui:define name="panel-main">
+		<ui:fragment rendered="#{not userManager.signedIn}">
+                <section>
+                    <mc:signIn action="#{userManager.signIn}"/>
+                </section>
+        </ui:fragment>
+		<ui:fragment rendered="#{userManager.signedIn and userManager.admin}">
+			<section>
+			<h:messages id="globalMessage" styleClass="validation-messages" />
+				<h:form>
+					<h:dataTable value="#{movie_data.moviesList}" var="movie"
+						styleClass="movieadmin-table" headerClass="movieadmin-header"
+						rowClasses="movieadmin-row-odd,movieadmin-row-even"
+						columnClasses="movieadmin-col-name, movieadmin-col-description, movieadmin-col-year, movieadmin-col-length, 
+						movieadmin-col-director, movieadmin-col-actor, movieadmin-col-genre, movieadmin-col-rating, movieadmin-col-soon, 
+						movieadmin-col-imagename, movieadmin-col-delete"
+						footerClass="movieadmin-footer">
+	
+						<h:column>
+							<f:facet name="header">Name</f:facet>
+							<h:outputText value="#{movie.name}" />
+						</h:column>
+						
+						<h:column>
+							<f:facet name="header">Description</f:facet>
+							<h:outputText value="#{movie.description}" />
+						</h:column>
+						
+						<h:column>
+							<f:facet name="header">Year</f:facet>
+							<h:outputText value="#{movie.year}" />
+						</h:column>
+						
+						<h:column>
+							<f:facet name="header">Length</f:facet>
+							<h:outputText value="#{movie.length}" />
+						</h:column>
+						
+						<h:column>
+							<f:facet name="header">Director</f:facet>
+							<h:outputText value="#{movie.director}" />
+						</h:column>
+						
+						<h:column>
+							<f:facet name="header">Main Actor</f:facet>
+							<h:outputText value="#{movie.mainActor}" />
+						</h:column>
+						
+						<h:column>
+							<f:facet name="header">Genre</f:facet>
+							<h:outputText value="#{movie.genre}" />
+						</h:column>
+						
+						<h:column>
+							<f:facet name="header">MPAA Rating</f:facet>
+							<h:outputText value="#{movie.mpaaRating}" />
+						</h:column>
+						
+						<h:column>
+							<f:facet name="header">Coming Soon</f:facet>
+							<h:outputText value="#{movie.comingSoon}" />
+						</h:column>
+						
+						<h:column>
+							<f:facet name="header">Image Name</f:facet>
+							<h:outputText value="#{movie.imageName}" />
+						</h:column>
+	
+						<h:column>
+							<f:facet name="header">Delete</f:facet>
+							<h:commandButton value="Delete" action="#{movie_data.deleteMovie(movie)}" />
+						</h:column>
+	
+	
+					</h:dataTable>
+				</h:form>			
+			</section>
+			<section>
+			
+				<h:form enctype="multipart/form-data">
+				<h:messages id="globalMessage" styleClass="validation-messages" />
+					<h3>Add Movie</h3>
+					<h:panelGrid columns="4">
+					
+						<h:outputText value="Name" />
+						<h:inputText value="#{movie_data.name}" />
+						
+						<h:outputText value="Description" />
+						<h:inputTextarea value="#{movie_data.description}" cols="14" rows="4" style="width:200px">
+						</h:inputTextarea>
+					
+						
+						<h:outputText value="Year" />
+						<h:inputText value="#{movie_data.strYear}" />
+						
+						<h:outputText value="length" />
+						<h:inputText value="#{movie_data.strLength}" />
+						
+						<h:outputText value="Director" />
+						<h:inputText value="#{movie_data.director}" />
+						
+						<h:outputText value="Main Actor" />
+						<h:inputText value="#{movie_data.mainActor}" />
+						
+						<h:outputText value="Genre" />
+						<h:inputText value="#{movie_data.genre}" />
+						
+						<h:outputText value="Age Limit" />
+						<h:selectOneMenu value="#{movie_data.mpaaRating}">
+								<f:selectItems value="#{movie_data.mpaaRatingList}" />
+						</h:selectOneMenu>
+						
+						
+						<h:outputText value="Coming Soon" />
+						<h:selectBooleanCheckbox value="#{movie_data.comingSoon}" />
+														
+						<h:outputText value="Please upload an image with 120x120 pixels dimension" />
+						<h:inputFile value="#{movie_data.uploadedSmallJpgFile}" />
+						
+						<h:outputText value="Please upload an image with 400x400 pixels dimension" />
+						<h:inputFile value="#{movie_data.uploadedLargeJpgFile}" />
+						
+						<h:commandButton value="Add Movie" action="#{movie_data.addMovie()}" />									
+						
+					</h:panelGrid>
+				</h:form>
+			</section>
+		</ui:fragment>
+	</ui:define>
+</ui:composition>
+</html>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://xmlns.jcp.org/jsf/passthrough" style="width: 605px;">
+<ui:composition>
+
+	<section class="movie-soon">
+		<p>#{movie.name}</p>
+		<h:graphicImage
+			value="../#{movie.imageName}-120x120.jpg" alt="#{movie.name}" />
+		<h:link value="Movie details" outcome="movie-soon-details.xhtml">
+			<f:param name="movieId" value="#{movie.movieId}" />
+		</h:link>
+	</section>
+</ui:composition>
+
+
+</html>

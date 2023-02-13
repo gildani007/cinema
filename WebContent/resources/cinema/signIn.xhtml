@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:cc="http://xmlns.jcp.org/jsf/composite"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+<ui:component>
+	<cc:interface componentType="com.danielly.jsf.component.SignIn">
+		<cc:attribute name="action"
+			method-signature="java.lang.Object action(java.lang.String, java.lang.String)"
+			required="true" />
+	</cc:interface>
+	<cc:implementation>
+		<h:messages styleClass="validation-messages" />
+		<h:form>
+			<h:panelGrid columns="2" styleClass="form-grid"
+				columnClasses="form-column-label,form-column-input">
+				<h:outputLabel for="usernameInput">Username</h:outputLabel>
+				<h:inputText id="usernameInput" value="#{cc.username}" size="20"
+					validatorMessage="Please enter a username consisting of only letters and digits, between 2 and 20 characters long.">
+					<f:validateRegex pattern="[A-Za-z0-9]{2,20}" />
+				</h:inputText>
+
+				<h:outputLabel for="passwordInput">Password</h:outputLabel>
+				<h:inputSecret id="passwordInput" value="#{cc.password}" size="20"
+					validatorMessage="Your password must consist of at least 8 characters.">
+					<f:validateLength minimum="8" />
+				</h:inputSecret>
+
+				<h:outputText value="" />
+				<h:commandButton id="submitButton" value="Submit"
+					action="#{cc.submit}" />
+			</h:panelGrid>
+		</h:form>
+	</cc:implementation>
+</ui:component>
+</html>

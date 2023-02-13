@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+<ui:composition template="/templates/page-template.xhtml">
+	<ui:param name="pageTitle" value="View Order" />
+	<ui:define name="panel-main">
+		<section>
+			<h1>View / Cancel Order</h1>
+			<h:messages id="globalMessage" styleClass="validation-messages" />
+			<h:form>
+				<h:panelGrid columns="5">
+					<h:outputText value="please type you order number:" />
+					<h:outputText value="&#160;" />
+					<h:inputText value="#{search_order.orderIdString}" size="10" />
+					<h:outputText value="&#160;" />
+					<h:commandButton value="Search"
+						action="#{search_order.searchOrder(search_order.orderIdString)}">
+					</h:commandButton>
+
+
+					<ui:fragment rendered="#{search_order.orderValidated eq true}">
+						<h:form>
+							<h:panelGrid columns="1" styleClass="form-grid"
+								columnClasses="form-column-label,form-column-input">
+								<h:outputText value="&#160;" />
+								<h:outputText
+									value="Order Number: #{search_order.order.orderId}" />
+								<h:outputText
+									value="Payer: #{search_order.order.payerName}" />
+								<h:outputText
+									value="Order Time: #{search_order.order.orderDateHourFormated} #{search_order.order.orderDateHour.toLocalTime().withSecond(0)}" />
+								<h:outputText
+									value="Credit Card Last 4 Digits: #{search_order.order.cardNumber.substring(search_order.order.cardNumber.length() - 4)}" />
+
+								<h:outputText value="&#160;" />
+								<h:outputText value="Movie: #{search_order.movie.name}" />
+								<h:outputText
+									value="#{search_order.showtime.showtimeDate}&#160;&#160;#{search_order.showtime.getDayString(search_order.showtime.showtimeDateHour.toLocalDate())} #{search_order.showtime.showtimeHour}" />
+								<h:outputText value="&#160;" />
+
+								<ui:fragment rendered="#{search_order.isAlloctedSeat eq true}">
+									<h:dataTable value="#{search_order.seatsList}" var="seat"
+										styleClass="shoppingcart-table"
+										headerClass="shoppingcart-header"
+										rowClasses="shoppingcart-row-odd,shoppingcart-row-even"
+										columnClasses=" shoppingcart-col-hall, shoppingcart-col-row, shoppingcart-col-seat, shoppingcart-col-price"
+										footerClass="shoppingcart-footer">
+
+										<h:column>
+											<f:facet name="header">Hall</f:facet>
+					                            #{search_order.hall.hallName}
+					                        </h:column>
+
+										<h:column>
+											<f:facet name="header">Row Number</f:facet>
+					                            #{seat.rowNumber}
+					                        </h:column>
+
+										<h:column>
+											<f:facet name="header">Seat Number</f:facet>
+					                            #{seat.seatNumber}
+					                        </h:column>
+
+										<h:column>
+											<f:facet name="footer">
+												<h:outputText></h:outputText>
+											</f:facet>
+										</h:column>
+
+									</h:dataTable>
+
+								</ui:fragment>
+								<h:outputText value="&#160;" />
+								<h:outputText
+									value="Number of tickets: #{search_order.ticketCounter}" />
+								<h:outputText value="&#160;" />
+								<h:outputText
+									value="Total Price: #{search_order.order.totalPriceNis} ₪" />
+								<h:outputText value="Status: #{search_order.order.status}" />
+								<h:outputText value="&#160;" />
+							</h:panelGrid>
+
+
+							<h:panelGrid columns="4" styleClass="form-grid"
+								columnClasses="form-column-label,form-column-input"
+								style="width: 415px; ">
+								<h:commandButton value="Back" action="home" />
+								<h:outputLabel></h:outputLabel>
+								<h:outputLabel></h:outputLabel>
+								<h:commandButton value="Cancel Order"
+									action="#{search_order.cancelOrder()}" />
+							</h:panelGrid>
+						</h:form>
+					</ui:fragment>
+
+				</h:panelGrid>
+			</h:form>
+
+
+		</section>
+	</ui:define>
+</ui:composition>
+</html>

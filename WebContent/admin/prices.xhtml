@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:mc="http://xmlns.jcp.org/jsf/composite/cinema">
+<ui:composition template="/templates/page-checkout-admin-template.xhtml">
+	<ui:param name="pageTitle" value="Prices Management" />
+	<ui:define name="panel-top">
+            <section>
+                <ui:fragment rendered="#{not userManager.signedIn}">
+                    <h1>Sign In</h1>
+                    <p>Please enter your username.</p>
+                </ui:fragment>
+
+                <ui:fragment rendered="#{userManager.signedIn}">
+			<h:form>
+				<p>
+					View and update your
+					<h:link value="user details" outcome="user-details" />
+					or
+					<h:commandLink action="#{userManager.signOut}">sign out</h:commandLink>
+					.
+				</p>
+			</h:form>
+		</ui:fragment>
+
+                <p><h:link value="Back to the main menu" outcome="admin-home"/></p>
+            </section>
+        </ui:define>
+	<ui:define name="panel-main">
+		<ui:fragment rendered="#{not userManager.signedIn}">
+                <section>
+                    <mc:signIn action="#{userManager.signIn}"/>
+                </section>
+        </ui:fragment>
+		<ui:fragment rendered="#{userManager.signedIn and not userManager.reporting}">
+			<section>
+				<h:messages id="globalMessage" styleClass="validation-messages" />
+				<h:form>
+					<h:dataTable value="#{price_data.pricesList}" var="p"
+						styleClass="priceadmin-table" headerClass="priceadmin-header"
+						rowClasses="priceadmin-row-odd,priceadmin-row-even"
+						columnClasses="priceadmin-col-category, priceadmin-col-price, priceadmin-col-delete"
+						footerClass="priceadmin-footer">
+	
+						<h:column>
+							<f:facet name="header">Category</f:facet>
+							<h:outputText value="#{p.category}" />
+						</h:column>
+	
+	
+						<h:column>
+							<f:facet name="header">Price</f:facet>
+							<h:outputText value="#{p.priceNis}" />
+						</h:column>			
+	
+	
+						<h:column>
+							<f:facet name="header">Delete</f:facet>
+							<h:commandButton value="Delete" action="#{price_data.deletePrice(p)}" />
+						</h:column>
+	
+					</h:dataTable>
+		
+				</h:form>
+			</section>
+			<section>
+				<h:form>
+					<h3>Add Price</h3>
+					<h:panelGrid columns="4">
+									
+						<h:outputText value="Price Category" />
+						<h:inputText value="#{price_data.priceCategory}" />
+						
+						<h:outputText value="Price" />
+						<h:inputText value="#{price_data.strPriceNis}" />
+	
+						<h:commandButton value="Add Price" action="#{price_data.addPrice}" >
+						</h:commandButton>
+					</h:panelGrid>
+				</h:form>
+			</section>
+		</ui:fragment>
+	</ui:define>
+</ui:composition>
+</html>

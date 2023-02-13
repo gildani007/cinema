@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+<f:view contentType="text/html"
+	contracts="common,device-desktop,theme-light">
+	<ui:composition template="/templates/page-checkout-admin-template.xhtml">
+		<ui:param name="pageTitle" value="Order Failed" />
+		<ui:define name="panel-top">
+			<section>
+				<h1>Order Issue Failed:</h1>
+				<p>Unfortunately, there is one or more issues with the creation of the order.</p>
+			</section>
+		</ui:define>
+		<ui:define name="panel-main">
+			<section>
+				<p>Please contact the sales department.</p>
+
+				<h:form>
+					<h:commandButton value="Finish" action="#{checkout.finishOrder}"
+						styleClass="button-right" />
+				</h:form>
+			</section>
+		</ui:define>
+	</ui:composition>
+</f:view>
+</html>

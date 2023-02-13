@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+<ui:composition template="/templates/page-template.xhtml">
+
+
+	<ui:param name="pageTitle" value="Search" />
+	<ui:define name="panel-main">
+
+		<section>
+			<h1>List of Showtimes by search</h1>
+			<h:form>
+				<ui:repeat value="#{search_data.showtimes}" var="showtime">
+					<ui:decorate template="/templates/showtime-summary.xhtml">
+						<ui:param name="movie"
+							value="#{moviesList.getMovieById(showtime.movieId)}" />
+						<ui:param name="showtime" value="#{showtime}" />
+						<ui:define name="movie-description">
+							<p>#{movie.shortDescription}</p>
+						</ui:define>
+						<ui:define name="Showtime date">
+							<p>#{showtime.showtimeDate}</p>
+						</ui:define>
+						<ui:define name="Showtime hour">
+							<p>#{showtime.showtimeHour}</p>
+						</ui:define>
+					</ui:decorate>
+				</ui:repeat>
+			</h:form>
+		</section>
+
+
+	</ui:define>
+
+</ui:composition>
+</html>

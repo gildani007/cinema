@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:jsf="http://xmlns.jcp.org/jsf">
+<f:view contentType="text/html"
+	contracts="common,device-desktop,theme-light">
+
+	<ui:composition template="/templates/page-checkout-admin-template.xhtml">
+		<ui:param name="pageTitle" value="Order Details" />
+		<ui:define name="panel-top">
+			<section>
+				<h1>Order Details</h1>
+				<h:panelGrid columns="2" styleClass="moviePanel">
+					<h:form>
+						<p>#{shoppingCart.movie.name}</p>
+						<p>Date:
+							#{shoppingCart.showtime.showtimeDate}&#160;&#160;&#160;</p>
+						<p>Day:
+							#{shoppingCart.showtime.getDayString(shoppingCart.showtime.showtimeDateHour.toLocalDate())}</p>
+						<p>Hour: #{shoppingCart.showtime.showtimeHour}</p>
+						<p>Price: ₪&#160;#{shoppingCart.price.priceNis}</p>
+					</h:form>
+					<h:graphicImage value="../#{shoppingCart.movie.imageName}-120x120.jpg"
+						alt="#{movie.name}" style="width: 141px; height: 140px; " />
+				</h:panelGrid>
+				<h:form>
+					<h:selectOneRadio required="true" value="#{checkout.seatAllocated}"
+						onchange="#{checkout.emptySelections()}">
+						<f:selectItem itemValue="true" itemLabel="Allocated seats" />
+						<f:selectItem itemValue="false" itemLabel="Free seats" />
+						<f:ajax render="@form panel-main-section" />
+					</h:selectOneRadio>
+				</h:form>
+			</section>
+		</ui:define>
+		<ui:define name="panel-main">
+			<section jsf:id="panel-main-section">
+				<h:messages styleClass="validation-messages" />
+				<h:form>
+
+					<ui:fragment rendered="#{checkout.checkSeatAndTicket() eq false}">
+						<h:outputText
+							value=" Unfortunately, one or more seats are unavailable."
+							style="color: red"></h:outputText>
+						<br></br>
+					</ui:fragment>
+					<ui:fragment rendered="#{checkout.checkSeatAndTicket() eq true}">
+					</ui:fragment>
+
+					<ui:fragment rendered="#{checkout.seatAllocated eq true}">
+						<h:outputText value="Where do you want to sit?" />
+						<h:outputText value="" />
+
+						<h:panelGrid columns="#{shoppingCart.hall.seatsPerRow}">
+							<c:forEach var="showtimeSeat"
+								items="#{shoppingCart.showtimeSeats}">
+								<ui:fragment rendered="#{showtimeSeat.isSeatTaken eq false}">
+									<ui:fragment rendered="#{showtimeSeat.isSeatSelected eq true}">
+										<h:commandLink
+											action="#{shoppingCart.removeAlloctedSeatTicket(showtimeSeat)}">
+											<f:actionListener binding="#{checkout.removeSelectedSeat()}" />
+											<h:graphicImage library="cinema" name="images/greenseat.png" />
+											<f:ajax render="@form panel-main-section" />
+										</h:commandLink>
+									</ui:fragment>
+
+									<ui:fragment rendered="#{showtimeSeat.isSeatSelected eq false}">
+										<h:commandLink
+											action="#{shoppingCart.addAlloctedSeatTicket(showtimeSeat)}">
+											<f:actionListener binding="#{checkout.addSelectedSeat()}" />
+											<h:graphicImage library="cinema" name="images/greyseat.png" />
+											<f:ajax render="@form panel-main-section" />
+										</h:commandLink>
+									</ui:fragment>
+								</ui:fragment>
+								<ui:fragment rendered="#{showtimeSeat.isSeatTaken eq true}">
+									<h:commandLink action="#{showtimeSeat.doNothing}">
+										<h:graphicImage library="cinema" name="images/redseat.png"
+											style="cursor:default" />
+										<f:ajax render="@form panel-main-section" />
+									</h:commandLink>
+								</ui:fragment>
+							</c:forEach>
+						</h:panelGrid>
+					</ui:fragment>
+					<h:messages id="globalMessage" styleClass="validation-messages" />
+					<ui:fragment rendered="#{checkout.seatAllocated eq false}">
+						<f:facet name="header">Quantity</f:facet>
+                                Number of tickets: #{shoppingCart.totalQuantity}
+                                <h:commandButton value="+"
+							action="#{shoppingCart.addFreeSeatTicket()}"
+							style="margin-left: 0.25em;">
+							<f:ajax render="@form panel-top-section" />
+						</h:commandButton>
+						<h:commandButton value="-"
+							action="#{shoppingCart.removeFreeSeatTicket()}"
+							style="margin-left: 0.25em;">
+							<f:ajax render="@form panel-top-section" />
+						</h:commandButton>
+					</ui:fragment>
+
+					<h:panelGrid columns="4" styleClass="form-grid"
+						columnClasses="form-column-label,form-column-input"
+						style="width: 415px; ">
+						<ui:fragment
+							rendered="#{checkout.isFreeOrAllocatedSeatChosen() eq true}">
+							<h:commandButton value="Continue"
+								action="#{checkout.checkSeatAndTicketForView}">
+								<f:ajax render="@form panel-main-section" />
+							</h:commandButton>
+						</ui:fragment>
+						<ui:fragment
+							rendered="#{checkout.isFreeOrAllocatedSeatChosen() eq false}">
+							<h:outputLabel></h:outputLabel>
+						</ui:fragment>
+
+						<h:outputLabel></h:outputLabel>
+						<h:commandButton value="Cancel" action="#{checkout.cancelOrder}"
+							immediate="true" />
+					</h:panelGrid>
+				</h:form>
+			</section>
+		</ui:define>
+	</ui:composition>
+</f:view>
+</html>
